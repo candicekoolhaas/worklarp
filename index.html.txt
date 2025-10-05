@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Points Clicker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #score {
+      font-size: 2em;
+      margin: 20px;
+    }
+    .btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .btn img {
+      width: 100px; /* adjust to your JPEG size */
+    }
+  </style>
+</head>
+<body>
+  <h1>Points Clicker</h1>
+  
+  <!-- Score Display -->
+  <div id="score">0</div>
+  
+  <!-- Buttons with custom images -->
+  <button class="btn" onclick="addPoints(1)">
+    <img src="button1.jpg" alt="Button 1">
+  </button>
+  <button class="btn" onclick="addPoints(5)">
+    <img src="button2.jpg" alt="Button 2">
+  </button>
+  <button class="btn" onclick="addPoints(10)">
+    <img src="button3.jpg" alt="Button 3">
+  </button>
+  
+  <!-- Reset -->
+  <div>
+    <button onclick="resetScore()">Reset</button>
+  </div>
+  
+  <script>
+    let score = 0;
+
+    function addPoints(points) {
+      score += points;
+      document.getElementById("score").innerText = score;
+      localStorage.setItem("score", score); // persists across refresh
+    }
+
+    function resetScore() {
+      score = 0;
+      document.getElementById("score").innerText = score;
+      localStorage.removeItem("score");
+    }
+
+    // Load saved score if it exists
+    window.onload = function() {
+      const saved = localStorage.getItem("score");
+      if (saved) {
+        score = parseInt(saved);
+        document.getElementById("score").innerText = score;
+      }
+    }
+  </script>
+</body>
+</html>
