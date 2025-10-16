@@ -9,6 +9,7 @@
       text-align: center;
       margin-top: 50px;
     }
+
     #score {
       font-size: 2em;
       margin-bottom: 30px;
@@ -17,19 +18,31 @@
     /* Container for each button + label pair */
     .button-row {
       display: flex;
-      align-items: start;
-      justify-content: start;
+      align-items: center;
+      justify-content: center;
       margin: 15px 0;
-}
-
-    .btn {
-      border: none;
-      background: none;
-      cursor: pointer;
-      margin: 10px;
     }
+
+    /* The actual clickable button */
+    .btn {
+      background-color: #007bff; /* blue background */
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3; /* darker blue on hover */
+    }
+
+    /* Optional: image-style button instead of text */
     .btn img {
-      width: 100px; /* adjust to your JPEG size */
+      width: 100px;
+      height: auto;
     }
 
     /* Label text to the right of each button */
@@ -39,51 +52,47 @@
       color: #333;
     }
 
+    /* Reset button styling */
+    #reset-btn {
+      margin-top: 30px;
+      background-color: #dc3545;
+    }
+
+    #reset-btn:hover {
+      background-color: #b02a37;
+    }
   </style>
 </head>
 <body>
   <h1>Points Clicker</h1>
-  <!-- Avatar -->
-  <img src="avatar.jpg" alt="Avatar">
-
-  
-  <!-- Score Display -->
   <div id="score">0</div>
-  
-  <!-- Buttons with custom images -->
+
+  <!-- Vertical list of buttons -->
   <div class="button-row">
-  <button class="btn" onclick="addPoints(1)">+1 Point
-    <img src="button1.jpg" alt="Button 1">
-  </button> 
+    <button class="btn" onclick="addPoints(1)">+1 Point</button>
     <div class="label">Quick task</div>
   </div>
 
   <div class="button-row">
-  <button class="btn" onclick="addPoints(5)">+5 Points
-    <img src="button2.jpg" alt="Button 2">
-  </button>
+    <button class="btn" onclick="addPoints(5)">+5 Points</button>
     <div class="label">Moderate task</div>
   </div>
 
   <div class="button-row">
-  <button class="btn" onclick="addPoints(10)">+10 Points
-    <img src="button3.jpg" alt="Button 3">
-  </button>
+    <button class="btn" onclick="addPoints(10)">+10 Points</button>
     <div class="label">Major accomplishment</div>
   </div>
-  
+
   <!-- Reset -->
-  <div>
-    <button onclick="resetScore()">Reset</button>
-  </div>
-  
+  <button id="reset-btn" class="btn" onclick="resetScore()">Reset</button>
+
   <script>
     let score = 0;
 
     function addPoints(points) {
       score += points;
       document.getElementById("score").innerText = score;
-      localStorage.setItem("score", score); // persists across refresh
+      localStorage.setItem("score", score);
     }
 
     function resetScore() {
@@ -92,7 +101,6 @@
       localStorage.removeItem("score");
     }
 
-    // Load saved score if it exists
     window.onload = function() {
       const saved = localStorage.getItem("score");
       if (saved) {
