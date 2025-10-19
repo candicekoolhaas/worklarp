@@ -1,30 +1,19 @@
-Alchemy:
-Alteration:
-Athletics:
-Conjuration:
-Destruction:
-Enchanting:
-Illusion:
-Mysticism:
-Restoration:
-Charisma:
-Weaponry:
+Strength: strength training
+Intelligence: reading
+Willpower: writing
+Agility: project management/organization
+Speed: finishing every item on to-do list
+Endurance: programming
+Personality: networking
+Luck: recruiting participants
+Alchemy: mathematics
+Alteration: data cleaning
+Athletics: cardio/yoga/sports
+Conjuration: modeling data/simulating data
+Destruction: presenting/lecturing
+Illusion: running participants
+Mysticism: data analysis/statistical inference
+Restoration: brainstorming
+Charisma: science communication/recruiting families
+Energy: embrace childlike energy or be kind to others to increase positive energy
 
-Data cleaning
-Data analysis
-Recruiting families
-Recruiting participants
-Running participants
-Science communication
-Writing
-Project management/organization
-Networking
-Reading
-Brainstorming
-Mathematics
-Programming
-Strength training
-Cardio
-Yoga
-Meditation
-Playing
