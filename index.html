@@ -12,9 +12,9 @@
 
     .button-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      margin: 15px 0;
+      margin: 10px 0;
     }
 
     .btn {
@@ -29,7 +29,7 @@
     }
 
     .label {
-      margin-left: 20px;
+      margin-left: 10px;
       font-size: 1.1em;
       color: #333;
     }
@@ -45,7 +45,7 @@
   <h1>work LARP</h1>
 
   <!-- Avatar -->
-  <img src="avatar.jpg" alt="Avatar" width="150"><br><br>
+  <img src="avatar.jpg" alt="Avatar" width="50"><br><br>
 
   <!-- Restoration -->
   <div class="button-row">
@@ -60,7 +60,7 @@
 
   <!-- Alchemy -->
   <div class="button-row">
-    <button class="btn" onclick="addPoints('Alchemy', 5)">
+    <button class="btn" onclick="addPoints('Alchemy', 1)">
       <img src="button2.jpg" alt="Alchemy Button">
     </button>
     <div class="label">
@@ -71,7 +71,7 @@
 
   <!-- Conjuration -->
   <div class="button-row">
-    <button class="btn" onclick="addPoints('Conjuration', 10)">
+    <button class="btn" onclick="addPoints('Conjuration', 1)">
       <img src="button3.jpg" alt="Conjuration Button">
     </button>
     <div class="label">
