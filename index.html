@@ -35,11 +35,15 @@
       color: #333;
     }
 
+    .label-container {
+      display: flex;          /* lay label and score in a row */
+      align-items: center;    /* vertically align them */
+      margin-left: 10px;      /* space from the button */
+      gap: 10px;              /* space between label and score */
+    }
+
     .score {
       font-size: 1.1em;
-      margin-left: 30px;
-      margin-top: 15px;
-      align-self: center; 
       color: #555;
     }
   </style>
@@ -64,8 +68,10 @@
   <button class="btn" onclick="addPoints('Restoration', 1)">
     <img src="button1.jpg" alt="Button 1">
   </button>
-  <div class="label">Restoration</div>
-  <div id="Restorationscore">0</div>
+  <div class="label-container">
+    <div class="label">Restoration</div>
+    <div id="Restorationscore">0</div>
+ </div>
 </div>
 
   <!-- Alchemy -->
@@ -73,8 +79,10 @@
   <button class="btn" onclick="addPoints('Alchemy', 1)">
     <img src="button2.jpg" alt="Button 2">
   </button>
-  <div class="label">Alchemy</div>
-  <div id="AlchemyScore">0</div>
+  <div class="label-container">
+    <div class="label">Alchemy</div>
+    <div id="AlchemyScore">0</div>
+ </div>
 </div>
 
 <!-- Conjuration -->
@@ -82,8 +90,10 @@
   <button class="btn" onclick="addPoints('Conjuration', 1)">
     <img src="button3.jpg" alt="Button 3">
   </button>
-  <div class="label">Conjuration</div>
-  <div id="ConjurationScore">0</div>
+  <div class="label-container">
+    <div class="label">Conjuration</div>
+    <div id="ConjurationScore">0</div>
+ </div>
 </div>
 
 <button onclick="resetScores()">Reset</button>
