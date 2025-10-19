@@ -2,25 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Points Clicker</title>
+  <title>work LARP</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Times New Roman", Times, serif;
       text-align: center;
       margin-top: 50px;
     }
-    #score {
-      font-size: 2em;
-      margin-bottom: 30px;
-    }
 
-    /* Container for each button + label pair */
     .button-row {
       display: flex;
-      align-items: start;
-      justify-content: start;
+      align-items: center;
+      justify-content: center;
       margin: 15px 0;
-}
+    }
 
     .btn {
       border: none;
@@ -28,76 +23,100 @@
       cursor: pointer;
       margin: 10px;
     }
+
     .btn img {
-      width: 100px; /* adjust to your JPEG size */
+      width: 100px;
     }
 
-    /* Label text to the right of each button */
     .label {
       margin-left: 20px;
       font-size: 1.1em;
       color: #333;
     }
 
+    .score {
+      font-size: 1.1em;
+      margin-left: 10px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
   <h1>work LARP</h1>
+
   <!-- Avatar -->
-  <img src="avatar.jpg" alt="Avatar">
+  <img src="avatar.jpg" alt="Avatar" width="150"><br><br>
 
-  
-  <!-- Score Display -->
-  <div id="score">0</div>
-  
-  <!-- Buttons with custom images -->
+  <!-- Restoration -->
   <div class="button-row">
-  <button class="btn" onclick="addPoints(1)">
-    <img src="button1.jpg" alt="Button 1">
-  </button> 
-    <div class="label">Restoration</div>
+    <button class="btn" onclick="addPoints('Restoration', 1)">
+      <img src="button1.jpg" alt="Restoration Button">
+    </button>
+    <div class="label">
+      Restoration
+      <span class="score" id="RestorationScore">0</span>
+    </div>
   </div>
 
+  <!-- Alchemy -->
   <div class="button-row">
-  <button class="btn" onclick="addPoints(5)">
-    <img src="button2.jpg" alt="Button 2">
-  </button>
-    <div class="label">Alchemy</div>
+    <button class="btn" onclick="addPoints('Alchemy', 5)">
+      <img src="button2.jpg" alt="Alchemy Button">
+    </button>
+    <div class="label">
+      Alchemy
+      <span class="score" id="AlchemyScore">0</span>
+    </div>
   </div>
 
+  <!-- Conjuration -->
   <div class="button-row">
-  <button class="btn" onclick="addPoints(10)">
-    <img src="button3.jpg" alt="Button 3">
-  </button>
-    <div class="label">Conjuration</div>
+    <button class="btn" onclick="addPoints('Conjuration', 10)">
+      <img src="button3.jpg" alt="Conjuration Button">
+    </button>
+    <div class="label">
+      Conjuration
+      <span class="score" id="ConjurationScore">0</span>
+    </div>
   </div>
-  
+
   <!-- Reset -->
-  <div>
-    <button onclick="resetScore()">Reset</button>
-  </div>
-  
+  <button onclick="resetScores()">Reset All</button>
+
   <script>
-    let score = 0;
+    // Store all skills in an object for easy management
+    let scores = {
+      Restoration: 0,
+      Alchemy: 0,
+      Conjuration: 0
+    };
 
-    function addPoints(points) {
-      score += points;
-      document.getElementById("score").innerText = score;
-      localStorage.setItem("score", score); // persists across refresh
-    }
-
-    function resetScore() {
-      score = 0;
-      document.getElementById("score").innerText = score;
-      localStorage.removeItem("score");
-    }
-
-    // Load saved score if it exists
+    // Load saved scores if they exist
     window.onload = function() {
-      const saved = localStorage.getItem("score");
+      const saved = localStorage.getItem("skillScores");
       if (saved) {
-        score = parseInt(saved);
-        document.getElementById("score").innerText = score;
+        scores = JSON.parse(saved);
+        updateAllDisplays();
+      }
+    };
+
+    function addPoints(skill, points) {
+      scores[skill] += points;
+      document.getElementById(skill + "Score").innerText = scores[skill];
+      localStorage.setItem("skillScores", JSON.stringify(scores));
+    }
+
+    function resetScores() {
+      for (let skill in scores) {
+        scores[skill] = 0;
+        document.getElementById(skill + "Score").innerText = 0;
+      }
+      localStorage.removeItem("skillScores");
+    }
+
+    function updateAllDisplays() {
+      for (let skill in scores) {
+        document.getElementById(skill + "Score").innerText = scores[skill];
       }
     }
   </script>

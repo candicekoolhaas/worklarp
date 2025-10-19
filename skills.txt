@@ -1,0 +1,30 @@
+Alchemy:
+Alteration:
+Athletics:
+Conjuration:
+Destruction:
+Enchanting:
+Illusion:
+Mysticism:
+Restoration:
+Charisma:
+Weaponry:
+
+Data cleaning
+Data analysis
+Recruiting families
+Recruiting participants
+Running participants
+Science communication
+Writing
+Project management/organization
+Networking
+Reading
+Brainstorming
+Mathematics
+Programming
+Strength training
+Cardio
+Yoga
+Meditation
+Playing
