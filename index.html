@@ -78,26 +78,22 @@
 <button onclick="resetScores()">Reset</button>
 
 <script type="module">
-  // Import the Firebase SDKs
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
   import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-  // Your Firebase config:
+  // ✅ Firebase config (fixed storageBucket)
   const firebaseConfig = {
     apiKey: "AIzaSyBUGoQLFbEwsizDNbNrGF0YHyc1yw-SSuo",
     authDomain: "worklarp.firebaseapp.com",
     projectId: "worklarp",
-    storageBucket: "worklarp.firebasestorage.app",
+    storageBucket: "worklarp.appspot.com",
     messagingSenderId: "909526822561",
     appId: "1:909526822561:web:66b48f5dce174d1fca8ae0"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-
-  // Skill scores
   let scores = {
     Restoration: 0,
     Alchemy: 0,
@@ -106,12 +102,16 @@
 
   let currentPasscode = "";
 
-  // Attach listeners after DOM loads
-  window.onload = () => {
-    const passcode = prompt("Enter your passcode:");
-    if (passcode) {
-      currentPasscode = passcode;
-      loadScores(passcode);
+  window.onload = async () => {
+    try {
+      const passcode = prompt("Enter your passcode:");
+      if (passcode) {
+        currentPasscode = passcode;
+        await loadScores(passcode);
+      }
+    } catch (e) {
+      console.error("Error during load:", e);
+      alert("Error connecting to database. Check console.");
     }
   };
 
@@ -121,30 +121,34 @@
     if (snapshot.exists()) {
       scores = snapshot.data();
       updateDisplay();
-      alert("Welcome back, " + passcode + "!");
+      console.log("Loaded existing player", passcode, scores);
     } else {
-      await setDoc(ref, scores); // create new entry
-      alert("New player created: " + passcode);
+      await setDoc(ref, scores);
+      console.log("New player created:", passcode);
     }
   }
 
   async function saveScores() {
     if (!currentPasscode) return;
-    const ref = doc(db, "players", currentPasscode);
-    await setDoc(ref, scores);
+    try {
+      const ref = doc(db, "players", currentPasscode);
+      await setDoc(ref, scores);
+    } catch (e) {
+      console.error("Save failed:", e);
+    }
   }
 
-  function addPoints(skill, points) {
+  window.addPoints = (skill, points) => {
     scores[skill] += points;
     updateDisplay();
     saveScores();
-  }
+  };
 
-  function resetScores() {
+  window.resetScores = () => {
     for (const skill in scores) scores[skill] = 0;
     updateDisplay();
     saveScores();
-  }
+  };
 
   function updateDisplay() {
     document.getElementById("Restorationscore").innerText = scores.Restoration;
@@ -152,5 +156,6 @@
     document.getElementById("ConjurationScore").innerText = scores.Conjuration;
   }
 </script>
+
 </body>
 </html>
