@@ -48,6 +48,15 @@
   <!-- Avatar -->
   <img src="avatar.jpg" alt="Avatar" width="50"><br><br>
 
+<!-- Login -->
+<div id="loginDiv">
+  <input type="text" id="passcodeInput" placeholder="Enter username">
+  <button id="loginBtn">Login</button>
+</div>
+
+<!-- Display username -->
+<div id="usernameDisplay" style="margin:10px; font-weight:bold;"></div>
+
   <!-- Restoration -->
 <div class="button-row">
   <button class="btn" onclick="addPoints('Restoration', 1)">
@@ -102,17 +111,23 @@
 
   let currentPasscode = "";
 
-  window.onload = async () => {
-    try {
-      const passcode = prompt("Enter your passcode:");
-      if (passcode) {
-        currentPasscode = passcode;
-        await loadScores(passcode);
-      }
-    } catch (e) {
-      console.error("Error during load:", e);
-      alert("Error connecting to database. Check console.");
-    }
+  const buttons = document.querySelectorAll(".btn");
+  const resetBtn = document.getElementById("resetBtn");
+
+  // Enable buttons after login
+  function enableButtons() {
+    buttons.forEach(b => b.disabled = false);
+    resetBtn.disabled = false;
+  }
+
+  document.getElementById("loginBtn").onclick = async () => {
+    const passcode = document.getElementById("passcodeInput").value.trim();
+    if (!passcode) return alert("Please enter a username!");
+    currentPasscode = passcode;
+    document.getElementById("usernameDisplay").innerText = "Logged in as: " + currentPasscode;
+    await loadScores(passcode);
+    enableButtons();
+    document.getElementById("loginDiv").style.display = "none"; // hide login
   };
 
   async function loadScores(passcode) {
