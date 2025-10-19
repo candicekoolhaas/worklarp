@@ -398,15 +398,6 @@
 
   let currentPasscode = "";
 
-  const buttons = document.querySelectorAll(".btn");
-  const resetBtn = document.getElementById("resetBtn");
-
-  // Enable buttons after login
-  function enableButtons() {
-    buttons.forEach(b => b.disabled = false);
-    resetBtn.disabled = false;
-  }
-
   document.getElementById("loginBtn").onclick = async () => {
     const passcode = document.getElementById("passcodeInput").value.trim();
     if (!passcode) return alert("Please enter a username!");
