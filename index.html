@@ -13,7 +13,7 @@
     .button-row {
       display: flex;
       align-items: flex-start;
-      justify-content: center;
+      justify-content: flex-start;
       margin: 10px 0;
     }
 
@@ -30,6 +30,7 @@
 
     .label {
       margin-left: 10px;
+      margin-top: 10px
       font-size: 1.1em;
       color: #333;
     }
@@ -48,77 +49,110 @@
   <img src="avatar.jpg" alt="Avatar" width="50"><br><br>
 
   <!-- Restoration -->
-  <div class="button-row">
-    <button class="btn" onclick="addPoints('Restoration', 1)">
-      <img src="button1.jpg" alt="Restoration Button">
-    </button>
-    <div class="label">
-      Restoration
-      <span class="score" id="RestorationScore">0</span>
-    </div>
-  </div>
+<div class="button-row">
+  <button class="btn" onclick="addPoints('Restoration', 1)">
+    <img src="button1.jpg" alt="Button 1">
+  </button>
+  <div class="label">Restoration</div>
+  <div id="Restorationscore">0</div>
+</div>
 
   <!-- Alchemy -->
-  <div class="button-row">
-    <button class="btn" onclick="addPoints('Alchemy', 1)">
-      <img src="button2.jpg" alt="Alchemy Button">
-    </button>
-    <div class="label">
-      Alchemy
-      <span class="score" id="AlchemyScore">0</span>
-    </div>
-  </div>
+<div class="button-row">
+  <button class="btn" onclick="addPoints('Alchemy', 1)">
+    <img src="button2.jpg" alt="Button 2">
+  </button>
+  <div class="label">Alchemy</div>
+  <div id="AlchemyScore">0</div>
+</div>
 
-  <!-- Conjuration -->
-  <div class="button-row">
-    <button class="btn" onclick="addPoints('Conjuration', 1)">
-      <img src="button3.jpg" alt="Conjuration Button">
-    </button>
-    <div class="label">
-      Conjuration
-      <span class="score" id="ConjurationScore">0</span>
-    </div>
-  </div>
+<!-- Conjuration -->
+<div class="button-row">
+  <button class="btn" onclick="addPoints('Conjuration', 1)">
+    <img src="button3.jpg" alt="Button 3">
+  </button>
+  <div class="label">Conjuration</div>
+  <div id="ConjurationScore">0</div>
+</div>
 
-  <!-- Reset -->
-  <button onclick="resetScores()">Reset All</button>
+<button onclick="resetScores()">Reset</button>
 
   <script>
-    // Store all skills in an object for easy management
-    let scores = {
-      Restoration: 0,
-      Alchemy: 0,
-      Conjuration: 0
-    };
 
-    // Load saved scores if they exist
-    window.onload = function() {
-      const saved = localStorage.getItem("skillScores");
-      if (saved) {
-        scores = JSON.parse(saved);
-        updateAllDisplays();
-      }
-    };
+<script type="module">
+  // Import the Firebase SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    function addPoints(skill, points) {
-      scores[skill] += points;
-      document.getElementById(skill + "Score").innerText = scores[skill];
-      localStorage.setItem("skillScores", JSON.stringify(scores));
+  // Your Firebase config:
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUGoQLFbEwsizDNbNrGF0YHyc1yw-SSuo",
+    authDomain: "worklarp.firebaseapp.com",
+    projectId: "worklarp",
+    storageBucket: "worklarp.firebasestorage.app",
+    messagingSenderId: "909526822561",
+    appId: "1:909526822561:web:66b48f5dce174d1fca8ae0"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+
+  // Skill scores
+  let scores = {
+    Restoration: 0,
+    Alchemy: 0,
+    Conjuration: 0
+  };
+
+  let currentPasscode = "";
+
+  // Attach listeners after DOM loads
+  window.onload = () => {
+    const passcode = prompt("Enter your passcode:");
+    if (passcode) {
+      currentPasscode = passcode;
+      loadScores(passcode);
     }
+  };
 
-    function resetScores() {
-      for (let skill in scores) {
-        scores[skill] = 0;
-        document.getElementById(skill + "Score").innerText = 0;
-      }
-      localStorage.removeItem("skillScores");
+  async function loadScores(passcode) {
+    const ref = doc(db, "players", passcode);
+    const snapshot = await getDoc(ref);
+    if (snapshot.exists()) {
+      scores = snapshot.data();
+      updateDisplay();
+      alert("Welcome back, " + passcode + "!");
+    } else {
+      await setDoc(ref, scores); // create new entry
+      alert("New player created: " + passcode);
     }
+  }
 
-    function updateAllDisplays() {
-      for (let skill in scores) {
-        document.getElementById(skill + "Score").innerText = scores[skill];
-      }
-    }
-  </script>
+  async function saveScores() {
+    if (!currentPasscode) return;
+    const ref = doc(db, "players", currentPasscode);
+    await setDoc(ref, scores);
+  }
+
+  function addPoints(skill, points) {
+    scores[skill] += points;
+    updateDisplay();
+    saveScores();
+  }
+
+  function resetScores() {
+    for (const skill in scores) scores[skill] = 0;
+    updateDisplay();
+    saveScores();
+  }
+
+  function updateDisplay() {
+    document.getElementById("Restorationscore").innerText = scores.Restoration;
+    document.getElementById("AlchemyScore").innerText = scores.Alchemy;
+    document.getElementById("ConjurationScore").innerText = scores.Conjuration;
+  }
+</script>
 </body>
 </html>

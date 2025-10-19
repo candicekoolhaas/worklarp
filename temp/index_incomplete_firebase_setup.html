@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>work LARP</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .button-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin: 10px 0;
+    }
+
+    .btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    .btn img {
+      width: 100px;
+    }
+
+    .label {
+      margin-left: 10px;
+      margin-top: 10px
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    .score {
+      font-size: 1.1em;
+      margin-left: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>work LARP</h1>
+
+  <!-- Avatar -->
+  <img src="avatar.jpg" alt="Avatar" width="50"><br><br>
+
+  <!-- Restoration -->
+  <div class="button-row">
+    <button class="btn" onclick="addPoints('Restoration', 1)">
+      <img src="button1.jpg" alt="Restoration Button">
+    </button>
+    <div class="label">
+      Restoration
+      <span class="score" id="RestorationScore">0</span>
+    </div>
+  </div>
+
+  <!-- Alchemy -->
+  <div class="button-row">
+    <button class="btn" onclick="addPoints('Alchemy', 1)">
+      <img src="button2.jpg" alt="Alchemy Button">
+    </button>
+    <div class="label">
+      Alchemy
+      <span class="score" id="AlchemyScore">0</span>
+    </div>
+  </div>
+
+  <!-- Conjuration -->
+  <div class="button-row">
+    <button class="btn" onclick="addPoints('Conjuration', 1)">
+      <img src="button3.jpg" alt="Conjuration Button">
+    </button>
+    <div class="label">
+      Conjuration
+      <span class="score" id="ConjurationScore">0</span>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <button onclick="resetScores()">Reset All</button>
+
+  <script>
+
+<script type="module">
+  // Import the Firebase SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // Your Firebase config:
+  const firebaseConfig = {
+    apiKey: "YOUR-KEY-HERE",
+    authDomain: "YOUR-APP.firebaseapp.com",
+    projectId: "YOUR-APP",
+    storageBucket: "YOUR-APP.appspot.com",
+    messagingSenderId: "YOUR-ID",
+    appId: "YOUR-APP-ID"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+
+
+    // Store all skills in an object for easy management
+    let scores = {
+      Restoration: 0,
+      Alchemy: 0,
+      Conjuration: 0
+    };
+
+    // Load saved scores if they exist
+    window.onload = function() {
+      const saved = localStorage.getItem("skillScores");
+      if (saved) {
+        scores = JSON.parse(saved);
+        updateAllDisplays();
+      }
+    };
+
+    function addPoints(skill, points) {
+      scores[skill] += points;
+      document.getElementById(skill + "Score").innerText = scores[skill];
+      localStorage.setItem("skillScores", JSON.stringify(scores));
+    }
+
+    function resetScores() {
+      for (let skill in scores) {
+        scores[skill] = 0;
+        document.getElementById(skill + "Score").innerText = 0;
+      }
+      localStorage.removeItem("skillScores");
+    }
+
+    function updateAllDisplays() {
+      for (let skill in scores) {
+        document.getElementById(skill + "Score").innerText = scores[skill];
+      }
+    }
+  </script>
+</body>
+</html>
