@@ -7,7 +7,7 @@ Endurance: programming+
 Personality: networking+
 Luck: recruiting participants+
 Alchemy: mathematics+
-Alteration: data cleaning+
+Engineering: data cleaning+
 Athletics: cardio/yoga/sports+
 Conjuration: modeling data/simulating data+
 Destruction: presenting/lecturing+
