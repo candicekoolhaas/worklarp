@@ -424,18 +424,48 @@
     document.getElementById("loginDiv").style.display = "none"; // hide login
   };
 
-  async function loadScores(passcode) {
-    const ref = doc(db, "players", passcode);
-    const snapshot = await getDoc(ref);
-    if (snapshot.exists()) {
-      scores = snapshot.data();
-      updateDisplay();
-      console.log("Loaded existing player", passcode, scores);
-    } else {
-      await setDoc(ref, scores);
-      console.log("New player created:", passcode);
+async function loadScores(passcode) {
+  const ref = doc(db, "players", passcode);
+  const snapshot = await getDoc(ref);
+
+  const defaultScores = {
+    Restoration: 0,
+    Alchemy: 0,
+    Conjuration: 0,
+    Strength: 0,
+    Intelligence: 0,
+    Willpower: 0,
+    Agility: 0,
+    Speed: 0,
+    Endurance: 0,
+    Personality: 0,
+    Luck: 0,
+    Engineering: 0,
+    Athletics: 0,
+    Illusion: 0,
+    Destruction: 0,
+    Mysticism: 0,
+    Charisma: 0,
+    Energy: 0
+  };
+
+  if (snapshot.exists()) {
+    const saved = snapshot.data();
+
+    // Merge saved data with defaults
+    for (const skill in defaultScores) {
+      scores[skill] = saved.hasOwnProperty(skill)
+        ? saved[skill]
+        : defaultScores[skill];
     }
+
+    updateDisplay();
+  } else {
+    scores = { ...defaultScores };
+    await setDoc(ref, scores);
+    updateDisplay();
   }
+}
 
   async function saveScores() {
     if (!currentPasscode) return;
